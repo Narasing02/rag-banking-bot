@@ -1,0 +1,33 @@
+// prisma/schema.prisma
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"] // Required to enable pgvector
+}
+
+datasource db {
+  provider   = "postgresql"
+  extensions = [vector]
+}
+
+model Document {
+  id         String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  filename   String
+  createdAt  DateTime        @default(now()) @map("created_at")
+  chunks     DocumentChunk[]
+
+  @@map("documents")
+}
+
+model DocumentChunk {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  documentId String   @map("document_id") @db.Uuid
+  content    String
+  
+  // We use Unsupported because Prisma hasn't built a native type for pgvector yet
+  embedding  Unsupported("vector(768)")?
+
+  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  @@map("document_chunks")
+}

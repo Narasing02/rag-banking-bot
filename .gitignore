@@ -1,0 +1,34 @@
+# Dependencies
+node_modules/
+
+# Environment Variables & Secrets (CRITICAL: Do NOT push to Git)
+.env
+.env*.local
+.env.production
+.env.development
+!.env.example
+
+# Build Outputs
+dist/
+build/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# IDE and Editor Directories
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary test files & uploads
+temp/
+uploads/
+*.tmp
